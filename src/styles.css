@@ -1,0 +1,90 @@
+html,body{
+    height: 100%;
+    margin: 0px;
+}
+
+body{
+    --aside-background: rgb(71, 93, 168);
+    --aside-text: white;
+    --card-border: black;
+    --card-background: rgb(252, 252, 252);
+}
+
+/**
+********** ASIDE STYLING **********
+**/
+
+aside{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    padding: 50px 20px 50px 20px;
+    background-color: var(--aside-background);
+    color: var(--aside-text);
+    box-shadow: 5px -1px 5px 0px rgba(145,145,145,0.75);
+    -webkit-box-shadow: 5px 0px 5px 0px rgba(192, 192, 192, 0.75);
+    -moz-box-shadow: 5px 0px 5px 0px rgba(145,145,145,0.75);
+    text-align: center;
+}
+
+aside button{
+    color: var(--aside-text);
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    text-align: right;
+}
+
+aside button:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+aside button#projectNav{
+    text-align: center;
+    margin-top: 50px;
+}
+
+aside button.project{
+    font-size: 1rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/**
+********** HOMEPAGE **********
+**/
+
+#content{
+    margin-left: 290px;
+    padding: 30px;
+}
+
+/**
+********** TODO CARDS **********
+**/
+
+div.todo-card{
+    width: 240px;
+    height: 100px;
+    border-radius: 8px;
+    background-color: var(--card-background);
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(192, 192, 192, 0.75);
+}
+
+div.card-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, max(260px, 25%));
+    grid-template-rows: 120px;
+    grid-auto-rows: 120px;
+}
+
+div.single-row{
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
