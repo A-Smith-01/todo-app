@@ -42,6 +42,12 @@ aside button{
     text-align: right;
 }
 
+aside #projects{
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+}
+
 aside button:hover{
     text-decoration: underline;
     cursor: pointer;
