@@ -16,12 +16,21 @@ function projectListFactory() {
         }
     }
 
-    return {getProjects, addProject, removeProject}
+    const getProjectById = function(id) {
+        return projects.find(project => project.getId() === id);
+    }
+
+    return {getProjects, addProject, removeProject, getProjectById}
 }
 
 function projectFactory (name){
     const todoList = [];
+    const id = crypto.randomUUID();
     let defaultProject = false;
+
+    const getId = function() {
+        return id;
+    }
 
     const setDefault = function() {
         defaultProject = true;
@@ -54,12 +63,17 @@ function projectFactory (name){
         }
     }
 
-    return {getName, setName, getTodos, addTodo, removeTodo, setDefault, isDefault};
+    return {getId, getName, setName, getTodos, addTodo, removeTodo, setDefault, isDefault};
 }
 
-function todoFactory(name, priority, dueDate, description) {
-    if (typeof dueDate === 'undefined') { dueDate = 'N/A'; }
+function todoFactory(name, priority, dueDate, description, project) {
+    const id = crypto.randomUUID();
+    if (typeof dueDate === 'undefined') { dueDate = 0; }
     if (typeof description === 'undefined') { description = 'No description.'; }
+
+    const getId = function() {
+        return id;
+    }
 
     const getName = function() {
         return name;
@@ -81,7 +95,15 @@ function todoFactory(name, priority, dueDate, description) {
     }
 
     const getDueDate = function() {
-        return dueDate;
+        if (!dueDate) {
+            return 'N/A';
+        }
+        const date = new Date(dueDate);
+        const today = Date.now();
+
+        const diffTime = date - today;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
+        return diffDays;
     }
 
     const setDueDate = function(newDueDate) {
@@ -96,7 +118,15 @@ function todoFactory(name, priority, dueDate, description) {
         description = newDescription;
     }
 
-    return {getName, setName, getPriority, setPriority, getDueDate, setDueDate, getDescription, setDescription};
+    const getProject = function() {
+        return project;
+    }
+
+    const setProject = function(newProject) {
+        project = newProject;
+    }
+
+    return {getId ,getName, setName, getPriority, setPriority, getDueDate, setDueDate, getDescription, setDescription, getProject, setProject};
 }
 
 export { projectListFactory, projectFactory, todoFactory}

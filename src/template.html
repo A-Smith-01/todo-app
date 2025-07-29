@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todoinator</title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
 <body>
+    <div class="hidden modal" id="newTodoModal">
+        <div class="modal-content">
+            <h1>Add New Todo</h1>
+            <label for="name">Title</label><input type="text" name="" id="nameIn">
+            <label for="due">Due date</label><input class="date" type="date" name="" id="dueIn">
+            <label for="priorityIn">Priority</label><select name="" id="priorityIn">
+                <option value="Low" selected="selected">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+            <label for="projectIn">Project</label><select name="" id="projectIn"></select>
+            <label for="descIn">Description</label><textarea rows="4" id="descIn"></textarea>
+            <div class="modal-buttons">
+                <button id="todoSubmit">Submit</button>
+                <button id="todoCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
     <aside>
         <button id="home">Home</button>
         <button id="newTodo">+ New Todo</button>
@@ -17,10 +34,6 @@
         </div>
         <button id="projectNav">My Projects</button>
         <div id="projects">
-            <button class="project">Project 1</button>
-            <button class="project">Project 2</button>
-            <button class="project">Project 3</button>
-            <button class="project">Really long projects name like why would you do one so long???</button>
         </div>
     </aside>
     <div id="content">
@@ -28,5 +41,3 @@
     </div>
 </body>
 </html>
-
-<!-- <script type="module" src="index.js"></script> -->
