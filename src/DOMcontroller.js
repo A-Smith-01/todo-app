@@ -80,6 +80,7 @@ function init() {
         if(projectName === "") {return ;}
         addProject(projectName);
         updateAside(getAllProjects());
+        updateProjectOptions(todoProjectIn)
         toggleHidden(newProjform,newProjectBut)
     });
 
@@ -97,6 +98,7 @@ function init() {
 }
 
 function updateProjectOptions(selector){
+    selector.replaceChildren();
     const projectList = getAllProjects();
     projectList.getProjects().forEach(project => {
         const option = document.createElement("option");
