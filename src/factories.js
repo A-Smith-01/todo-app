@@ -21,6 +21,15 @@ function projectListFactory() {
 
 function projectFactory (name){
     const todoList = [];
+    let defaultProject = false;
+
+    const setDefault = function() {
+        defaultProject = true;
+    }
+
+    const isDefault = function() {
+        return defaultProject;
+    }
 
     const getName = function() {
         return name;
@@ -45,13 +54,12 @@ function projectFactory (name){
         }
     }
 
-    return {getName, setName, getTodos, addTodo, removeTodo};
+    return {getName, setName, getTodos, addTodo, removeTodo, setDefault, isDefault};
 }
 
-function todoFactory(name, priority) {
-
-    let dueDate = 1;
-    let description = "";
+function todoFactory(name, priority, dueDate, description) {
+    if (typeof dueDate === 'undefined') { dueDate = 'N/A'; }
+    if (typeof description === 'undefined') { description = 'No description.'; }
 
     const getName = function() {
         return name;

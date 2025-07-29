@@ -9,8 +9,12 @@
 <body>
     <aside>
         <button id="home">Home</button>
-        <button id="newTodo">New Todo</button>
-        <button id="newProject">New Project</button>
+        <button id="newTodo">+ New Todo</button>
+        <button id="newProject">+ New Project</button>
+        <div id="projectForm" class="hidden">
+            <input type="text" name="" id="">
+            <div><button>Add</button><button>Cancel</button></div>
+        </div>
         <button id="projectNav">My Projects</button>
         <div id="projects">
             <button class="project">Project 1</button>
@@ -20,92 +24,7 @@
         </div>
     </aside>
     <div id="content">
-        <div>
-            <h1>Due Soon</h1>
-            <div class="card-container single-row">
-                <div class="fade-end"></div>
-                <div class="todo-card low">
-                    <h3>Example Project</h3>
-                    <div class="lower-content">
-                        <div class="lower-left">
-                            <span>Low Priority</span>
-                            <span>Due in 2 Days</span>
-                        </div>
-                        <div class="lower-right">
-                            <button class="edit"><img src="./assets/editIcon.svg" alt=""><span class="tooltiptext">Edit</span></button>
-                            <button class="check"><img src="./assets/checkIcon.svg" alt=""><span class="tooltiptext">Completed</span></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="todo-card high">
-                    <h3>Example Project</h3>
-                    <div class="lower-content">
-                        <div class="lower-left">
-                            <span>Low Priority</span>
-                            <span>Due in 2 Days</span>
-                        </div>
-                        <div class="lower-right">
-                            <button class="edit"><img src="./assets/editIcon.svg" alt=""><span class="tooltiptext">Edit</span></button>
-                            <button class="check"><img src="./assets/checkIcon.svg" alt=""><span class="tooltiptext">Completed</span></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="todo-card med">
-                    <h3>Example Project with a really long name that shouldn't fit</h3>
-                    <div class="lower-content">
-                        <div class="lower-left">
-                            <span>Low Priority</span>
-                            <span>Due in 2 Days</span>
-                        </div>
-                        <div class="lower-right">
-                            <button class="edit"><img src="./assets/editIcon.svg" alt=""><span class="tooltiptext">Edit</span></button>
-                            <button class="check"><img src="./assets/checkIcon.svg" alt=""><span class="tooltiptext">Completed</span></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="todo-card med">
-                    <h3>Example Project</h3>
-                    <div class="lower-content">
-                        <div class="lower-left">
-                            <span>Low Priority</span>
-                            <span>Due in 2 Days</span>
-                        </div>
-                        <div class="lower-right">
-                            <button class="edit"><img src="./assets/editIcon.svg" alt=""><span class="tooltiptext">Edit</span></button>
-                            <button class="check"><img src="./assets/checkIcon.svg" alt=""><span class="tooltiptext">Completed</span></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="todo-card high">
-                    <h3>Example Project</h3>
-                    <div class="lower-content">
-                        <div class="lower-left">
-                            <span>Low Priority</span>
-                            <span>Due in 2 Days</span>
-                        </div>
-                        <div class="lower-right">
-                            <button class="edit"><img src="./assets/editIcon.svg" alt=""><span class="tooltiptext">Edit</span></button>
-                            <button class="check"><img src="./assets/checkIcon.svg" alt=""><span class="tooltiptext">Completed</span></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <h1>High Priority</h1>
-            <div class="card-container single-row">
-                <div class="fade-end"></div>
-                <div class="todo-card"></div>
-                <div class="todo-card"></div>
-                <div class="todo-card"></div>
-            </div>
-            <h1>All Todos</h1>
-            <div class="card-container">
-                <div class="todo-card"></div>
-                <div class="todo-card"></div>
-                <div class="todo-card"></div>
-                <div class="todo-card"></div>
-                <div class="todo-card"></div>
-            </div>
-        </div>
+        
     </div>
 </body>
 </html>

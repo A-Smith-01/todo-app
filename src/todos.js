@@ -21,7 +21,15 @@ function generateSmallCard(todo){
     priority.textContent = `${todo.getPriority()} Priority`;
 
     const dueDate = document.createElement("span");
-    dueDate.textContent = `Due in ${todo.getDueDate()}`;
+    if(todo.getDueDate() === "N/A") {
+        dueDate.textContent = "No Due Date";
+    }else if(todo.getDueDate() == 0) {
+        dueDate.textContent = "Due Today";
+    }else if(todo.getDueDate() < 0) {
+        dueDate.textContent = `Due ${Math.abs(todo.getDueDate())} Days ago`;
+    }else{
+        dueDate.textContent = `Due in ${todo.getDueDate()} Days`;
+    }
 
     lowerLeft.appendChild(priority);
     lowerLeft.appendChild(dueDate)

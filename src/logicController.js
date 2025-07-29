@@ -7,13 +7,14 @@ const projectList = projectListFactory();
 
 // Create default project for todos to go in
 const defaultProject = projectFactory("Unassigned");
+defaultProject.setDefault();
 projectList.addProject(defaultProject);
 
 // PLACEHOLER REMOVE LATER
-defaultProject.addTodo(todoFactory("Example Todo 1", "High"));
-defaultProject.addTodo(todoFactory("Example Todo 2", "Medium"));
-defaultProject.addTodo(todoFactory("Example Todo 3", "Low"));
-defaultProject.addTodo(todoFactory("Example Todo 4", "Medium"));
+defaultProject.addTodo(todoFactory("Example Todo 1", "High",5));
+defaultProject.addTodo(todoFactory("Example Todo 2", "Medium",2));
+defaultProject.addTodo(todoFactory("Example Todo 3", "Low",3));
+defaultProject.addTodo(todoFactory("Example Todo 4", "Medium",-2));
 defaultProject.addTodo(todoFactory("Example Todo 5", "High"));
 
 // This function will return todos with a due date sorted ascending
@@ -53,4 +54,8 @@ const getAllProjects = function() {
     return projectList;
 }
 
-export {getDueSoonTodos, getHighPriorityTodos, getAllTodos, getAllProjects};
+const addProject = function(name) {
+    projectList.addProject(projectFactory(name))
+}
+
+export {getDueSoonTodos, getHighPriorityTodos, getAllTodos, getAllProjects, addProject};

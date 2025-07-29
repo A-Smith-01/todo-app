@@ -14,6 +14,10 @@ body{
     font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+.hidden{
+    display: none;
+}
+
 /**
 ********** ASIDE STYLING **********
 **/
@@ -63,6 +67,20 @@ aside button.project{
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+aside #newProject{
+    margin-bottom: calc(70px - 31px);
+}
+
+aside #projectForm{
+    width: fit-content;
+    height: 70px;
+    margin-left: auto;
+}
+
+aside #projectForm button{
+        font-size: 1.2rem;
 }
 
 /**

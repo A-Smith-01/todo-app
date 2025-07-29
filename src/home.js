@@ -19,7 +19,7 @@ function renderHome (allTodos, dueSoon, highPriority){
     addCards(highPrioritynDiv, highPriority)
     console.log("GENERATED HIGH PRIORITY CARDS");
 
-    const h3 = document.createElement("h3");
+    const h3 = document.createElement("h1");
     h3.textContent = "All Todos";
     const allTodosDiv = document.createElement("div");
     allTodosDiv.classList.add("card-container");
