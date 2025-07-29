@@ -1,4 +1,4 @@
-const projectListFactory = function() {
+function projectListFactory() {
     const projects = [];
 
     const getProjects = function() {
@@ -19,7 +19,7 @@ const projectListFactory = function() {
     return {getProjects, addProject, removeProject}
 }
 
-const projectFactory = function(name){
+function projectFactory (name){
     const todoList = [];
 
     const getName = function() {
@@ -48,7 +48,11 @@ const projectFactory = function(name){
     return {getName, setName, getTodos, addTodo, removeTodo};
 }
 
-const todoFactory = function(name, priority) {
+function todoFactory(name, priority) {
+
+    let dueDate = 1;
+    let description = "";
+
     const getName = function() {
         return name;
     }

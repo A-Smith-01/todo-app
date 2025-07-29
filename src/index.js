@@ -1,5 +1,4 @@
-import { init } from "./logicController";
+import { init } from "./DOMcontroller";
 import "./styles.css";
 
-console.log("wowiee");
 init();

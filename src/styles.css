@@ -93,7 +93,7 @@ div.todo-card{
 }
 
 div.high{border-color: var(--high-priority);}
-div.med {border-color: var(--med-priority);}
+div.medium {border-color: var(--med-priority);}
 div.low {border-color: var(--low-priority);}
 
 .todo-card h3{
