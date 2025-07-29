@@ -147,7 +147,12 @@ div.low {border-color: var(--low-priority);}
     margin-right: 10px;
 }
 
+.todo-card:hover .lower-right button{
+    display: block;
+}
+
 .lower-right button{
+    display: none;
     position: relative;
     background: none;
     border: none;
@@ -173,7 +178,7 @@ button.check img:hover{
 .lower-content .tooltiptext {
     visibility: hidden;
     width: 80px;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.233);
     color: #fff;
     text-align: center;
     padding: 5px 0;
@@ -195,7 +200,7 @@ button.check img:hover{
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: black transparent transparent transparent;
+  border-color: rgba(0, 0, 0, 0.233) transparent transparent transparent;
 }
 
 .lower-right button:hover .tooltiptext{
