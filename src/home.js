@@ -37,9 +37,8 @@ function renderHome (allTodos, dueSoon, highPriority){
 }
 
 function addCards(parentDiv, todoList) {
-    console.log(todoList)
     todoList.forEach(todo => {
-        parentDiv.appendChild(generateSmallCard(todo));
+        parentDiv.appendChild(todo);
     });
 }
 

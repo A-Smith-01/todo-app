@@ -1,27 +1,18 @@
 import { renderHome } from "./home";
 import {getAllProjects, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, addTodo} from "./logicController";
+import { generateSmallCard } from "./todos";
+import { createProjectDisplay, renderProjects } from "./projects";
 
-function updateAside(projectList) {
-    const listDiv = document.getElementById("projects")
-    listDiv.replaceChildren();
+// Set initial page to home
 
-    projectList.getProjects().forEach(element => {
-        if (element.isDefault()) {
-            return;
-        }
-        const projectBut = document.createElement("button");
-        projectBut.classList.add("project");
-        projectBut.textContent = element.getName();
-        listDiv.appendChild(projectBut);
-    });
-}
+let getCurrentContent = getHomeContent;
 
 function init() {
     const homeBut = document.getElementById("home");
     const newTodoBut = document.getElementById("newTodo");
     const newProjectBut = document.getElementById("newProject");
     const projectNav = document.getElementById("projectNav");
-    const content = document.getElementById("content");
+    
 
     const newProjform = document.getElementById("projectForm");
     const newProjInput = newProjform.querySelector("input");
@@ -37,7 +28,7 @@ function init() {
     const todoSubmitBut = document.getElementById("todoSubmit");
     const todoCancelBut = document.getElementById("todoCancel");
 
-    let currentContent = renderHome(getAllTodos(), getDueSoonTodos(), getHighPriorityTodos());
+    
 
     newTodoBut.addEventListener("click", () => {
         todoModal.classList.toggle("hidden")
@@ -61,14 +52,19 @@ function init() {
 
         addTodo(name, priority, dueDate, description, projectId);
 
-        // SOMEHOW HANDLE UPDATING THE UI????
+        loadCurrentPage();
 
         todoModal.classList.toggle("hidden");
     });
 
     homeBut.addEventListener("click", () => {
-        currentContent = renderHome(getAllTodos(), getDueSoonTodos(), getHighPriorityTodos())
-        content.replaceChildren(currentContent);
+        getCurrentContent = getHomeContent;
+        loadCurrentPage();
+    });
+
+    projectNav.addEventListener("click", () => {
+        getCurrentContent = getProjectsContent;
+        loadCurrentPage();
     });
 
     newProjectBut.addEventListener("click", () => {
@@ -82,6 +78,7 @@ function init() {
         updateAside(getAllProjects());
         updateProjectOptions(todoProjectIn)
         toggleHidden(newProjform,newProjectBut)
+        loadCurrentPage();
     });
 
     cancelProjBut.addEventListener("click", () => {
@@ -93,10 +90,27 @@ function init() {
     updateProjectOptions(todoProjectIn);
 
     // Load home content on page load
-    content.replaceChildren(currentContent)
+    loadCurrentPage();
 
 }
 
+// Update the project list in the aside
+function updateAside(projectList) {
+    const listDiv = document.getElementById("projects")
+    listDiv.replaceChildren();
+
+    projectList.getProjects().forEach(element => {
+        if (element.isDefault()) {
+            return;
+        }
+        const projectBut = document.createElement("button");
+        projectBut.classList.add("project");
+        projectBut.textContent = element.getName();
+        listDiv.appendChild(projectBut);
+    });
+}
+
+// Update the list of options for the project selector in the todo modal
 function updateProjectOptions(selector){
     selector.replaceChildren();
     const projectList = getAllProjects();
@@ -111,6 +125,44 @@ function updateProjectOptions(selector){
     });
 }
 
+// Call current content function and put it in the content div
+function loadCurrentPage(){
+    const content = document.getElementById("content");
+    content.replaceChildren(getCurrentContent());
+}
+
+// Create content for home page
+function getHomeContent(){
+    const allTodos = generateCardList(getAllTodos(),"small");
+    const dueSoon = generateCardList(getDueSoonTodos(),"small");
+    const highPriority = generateCardList(getHighPriorityTodos(),"small");
+    return renderHome(allTodos, dueSoon, highPriority)
+}
+
+// Create content for projects page
+function getProjectsContent(){
+    const displays = [];
+    const projects = getAllProjects().getProjects();
+    projects.forEach(project => {
+        const todoList = generateCardList(project.getTodos(),"small")
+        displays.push(createProjectDisplay(project, todoList));
+    });
+
+    return renderProjects(displays);
+}
+
+// Create list of todo card elements
+function generateCardList(todoList, size){
+    const outList = [];
+    todoList.forEach(todo => {
+        if(size === "small"){
+            outList.push(generateSmallCard(todo));
+        }
+    });
+    return outList;
+}
+
+// Toggle visibility of two elements at once
 function toggleHidden(a, b){
     a.classList.toggle("hidden");
     b.classList.toggle("hidden");
