@@ -1,12 +1,32 @@
-function createProjectDisplay(project, todoCards, singlePage){
+function createProjectDisplay(project, todoCards, singlePage, navFunc){
     const projectDiv = document.createElement("div");
 
     // Header content
+    const headContent = document.createElement("div");
+    headContent.classList.add("project-header");
+    if(singlePage){
+        headContent.classList.add("single-page");
+    }
     const header = document.createElement("h1");
     header.textContent = project.getName();
-    const todoCount = document.createElement("span");
-    todoCount.textContent = `${project.getTodos().length} Todos`;
+    if(!singlePage){
+        header.classList.add("clickable")
+        headContent.addEventListener("click", () => {navFunc()})
+    }
 
+    const todoCount = document.createElement("span");
+    const noTodos = project.getTodos().length
+    if(noTodos === 0){
+        todoCount.textContent = "No Todos have been added to this project";
+    }else if(noTodos === 1){
+        todoCount.textContent = "1 Todo";
+    }
+    else{
+        todoCount.textContent = `${noTodos} Todos`;
+    }
+
+    headContent.appendChild(header);
+    headContent.appendChild(todoCount);
 
     // Insert todo
     const todoContainer = document.createElement("div");
@@ -20,8 +40,7 @@ function createProjectDisplay(project, todoCards, singlePage){
     });
 
     // Put the parts together
-    projectDiv.appendChild(header);
-    projectDiv.appendChild(todoCount);
+    projectDiv.appendChild(headContent);
     projectDiv.appendChild(todoContainer)
 
     return projectDiv;

@@ -149,8 +149,12 @@ function getProjectsContent(){
     const displays = [];
     const projects = getAllProjects().getProjects();
     projects.forEach(project => {
+        const navFunc = () => {
+            getCurrentContent = createProjectContentFunc(project, getProjectsContent);
+            loadCurrentPage();
+        }
         const todoList = generateCardList(project.getTodos(),"small")
-        displays.push(createProjectDisplay(project, todoList));
+        displays.push(createProjectDisplay(project, todoList,false,navFunc));
     });
 
     return renderProjects(displays);

@@ -1,6 +1,7 @@
 html,body{
     height: 100%;
     margin: 0px;
+    overflow: visible;
 }
 
 body{
@@ -351,4 +352,20 @@ div.fade-end{
 
 div.single-row::-webkit-scrollbar {
     display: none;
+}
+
+/**
+********* PROJECTS **********
+**/
+
+div.project-header.single-page{
+    position: sticky;
+}
+
+h1.clickable{
+    cursor: pointer;
+}
+
+h1.clickable:hover{
+    text-decoration: underline;
 }
