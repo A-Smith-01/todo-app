@@ -153,6 +153,30 @@ aside #projectForm button{
 }
 
 /**
+*********** BACK BUTTON **********
+**/
+
+button.back-button{
+    position: sticky;
+    display: flex;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+button.back-button img{
+    width: 30px;
+    height: 30px;
+    filter: invert(20%) sepia(1%) saturate(397%) hue-rotate(116deg) brightness(112%) contrast(73%);
+}
+
+/**
 ********** HOMEPAGE **********
 **/
 

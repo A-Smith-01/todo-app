@@ -2,6 +2,7 @@ import { renderHome } from "./home";
 import {getAllProjects, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, addTodo} from "./logicController";
 import { generateCard } from "./todos";
 import { createProjectDisplay, renderProjects } from "./projects";
+import backIcon from "./assets/backIcon.svg";
 
 // Set initial page to home
 
@@ -163,7 +164,14 @@ function createProjectContentFunc(project, prevPage) {
         }
         const todoCards = generateCardList(project.getTodos(), "med");
 
-        return createProjectDisplay(project, todoCards, true);
+        const parent = document.createElement("div");
+        const backBut = makeBackButton(prevPage);
+        const projectDisplay = createProjectDisplay(project, todoCards, true);
+
+        parent.appendChild(backBut);
+        parent.appendChild(projectDisplay);
+
+        return parent;
     }
 }
 
@@ -174,6 +182,22 @@ function generateCardList(todoList, size){
         outList.push(generateCard(todo, size));
     });
     return outList;
+}
+
+function makeBackButton(prevPage) {
+    const backBut = document.createElement("button");
+    const text = document.createElement("span");
+    const icon = document.createElement("img");
+    icon.src = backIcon;
+    text.textContent = "Back";
+    backBut.classList.add("back-button");
+    backBut.appendChild(icon);
+    backBut.appendChild(text);
+    backBut.addEventListener("click", () => {
+        getCurrentContent = prevPage;
+        loadCurrentPage();
+    });
+    return backBut;
 }
 
 // Toggle visibility of two elements at once
