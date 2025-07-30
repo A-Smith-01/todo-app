@@ -1,6 +1,6 @@
 import { renderHome } from "./home";
 import {getAllProjects, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, addTodo} from "./logicController";
-import { generateCard } from "./todos";
+import { generateCard, generateTodoPage } from "./todos";
 import { createProjectDisplay, renderProjects } from "./projects";
 import backIcon from "./assets/backIcon.svg";
 
@@ -149,10 +149,7 @@ function getProjectsContent(){
     const displays = [];
     const projects = getAllProjects().getProjects();
     projects.forEach(project => {
-        const navFunc = () => {
-            getCurrentContent = createProjectContentFunc(project, getProjectsContent);
-            loadCurrentPage();
-        }
+        const navFunc = makeNavFunc(createProjectContentFunc(project, getCurrentContent));
         const todoList = generateCardList(project.getTodos(),"small")
         displays.push(createProjectDisplay(project, todoList,false,navFunc));
     });
@@ -183,9 +180,25 @@ function createProjectContentFunc(project, prevPage) {
 function generateCardList(todoList, size){
     const outList = [];
     todoList.forEach(todo => {
-        outList.push(generateCard(todo, size));
+        const navFunc = makeNavFunc(createTodoPageFunc(todo, getCurrentContent));
+        outList.push(generateCard(todo, size, navFunc));
     });
     return outList;
+}
+
+function createTodoPageFunc(todo, prevPage){
+    return function() {
+        const parent = document.createElement("div");
+        const backBut = makeBackButton(prevPage);
+
+        const projectNav = makeNavFunc(createProjectContentFunc(todo.getProject(),getCurrentContent));
+        const todoCard = generateTodoPage(todo,backBut,projectNav);
+
+        parent.appendChild(backBut);
+        parent.appendChild(todoCard);
+
+        return parent;
+    }
 }
 
 function makeBackButton(prevPage) {
@@ -198,10 +211,16 @@ function makeBackButton(prevPage) {
     backBut.appendChild(icon);
     backBut.appendChild(text);
     backBut.addEventListener("click", () => {
-        getCurrentContent = prevPage;
-        loadCurrentPage();
+        makeNavFunc(prevPage)();
     });
     return backBut;
+}
+
+function makeNavFunc(navPage){
+    return function(){
+        getCurrentContent = navPage;
+        loadCurrentPage();
+    }
 }
 
 // Toggle visibility of two elements at once

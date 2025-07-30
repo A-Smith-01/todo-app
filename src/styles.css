@@ -362,10 +362,33 @@ div.project-header.single-page{
     position: sticky;
 }
 
-h1.clickable{
+.clickable{
     cursor: pointer;
 }
 
-h1.clickable:hover{
+.clickable:hover{
     text-decoration: underline;
 }
+
+/**
+********** TODO PAGE ***********
+**/
+
+.todo-page div{
+    font-size: 1.2rem;
+}
+
+.todo-page .mid-content{
+    background-color: var(--card-background);
+    border-radius: 8px;
+    width: fit-content;
+    padding: 20px;
+}
+
+.todo-page p{
+    font-size: 1.2rem;
+}
+
+.todo-page .low{color: var(--low-priority);}
+.todo-page .medium{color: var(--med-priority);}
+.todo-page .high{color: var(--high-priority);}
