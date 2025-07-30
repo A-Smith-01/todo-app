@@ -1,4 +1,4 @@
-function createProjectDisplay(project, todoCards){
+function createProjectDisplay(project, todoCards, singlePage){
     const projectDiv = document.createElement("div");
 
     // Header content
@@ -11,7 +11,10 @@ function createProjectDisplay(project, todoCards){
     // Insert todo
     const todoContainer = document.createElement("div");
     todoContainer.classList.add("card-container");  
-    todoContainer.classList.add("single-row");
+    if(!singlePage){todoContainer.classList.add("single-row");}
+    else{
+        todoContainer.classList.add("multi-row");
+    }
     todoCards.forEach(card => {
         todoContainer.appendChild(card);
     });

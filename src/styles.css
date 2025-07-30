@@ -170,13 +170,22 @@ div.todo-card{
     flex-direction: column;
     justify-content: space-between;
     flex: 0 0 auto;
-    width: 240px;
-    height: 120px;
+    
     border-left: 8px solid;
     border-radius: 8px;
     background-color: var(--card-background);
     -webkit-box-shadow: 2px 2px 5px 0px rgba(192, 192, 192, 0.75);
     margin: 5px 15px 5px 0px;
+}
+
+div.small{
+    width: 240px;
+    height: 120px;
+}
+
+div.med{
+    width: 90%;
+    height: fit-content;
 }
 
 div.high{border-color: var(--high-priority);}
@@ -192,6 +201,14 @@ div.low {border-color: var(--low-priority);}
     padding-bottom: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.todo-card p {
+    padding-left: 10px;
+}
+
+div.small p{
+    display: none;
 }
 
 .lower-content{
@@ -291,6 +308,12 @@ div.single-row{
     flex-direction: row;
     overflow: scroll;
     justify-content: flex-start;
+}
+
+div.multi-row{
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
 }
 
 div.fade-end{

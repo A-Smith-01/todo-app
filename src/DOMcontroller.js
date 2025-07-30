@@ -1,6 +1,6 @@
 import { renderHome } from "./home";
 import {getAllProjects, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, addTodo} from "./logicController";
-import { generateSmallCard } from "./todos";
+import { generateCard } from "./todos";
 import { createProjectDisplay, renderProjects } from "./projects";
 
 // Set initial page to home
@@ -106,6 +106,10 @@ function updateAside(projectList) {
         const projectBut = document.createElement("button");
         projectBut.classList.add("project");
         projectBut.textContent = element.getName();
+        projectBut.addEventListener("click", () => {
+            getCurrentContent = createProjectContentFunc(element, getCurrentContent);
+            loadCurrentPage();
+        });
         listDiv.appendChild(projectBut);
     });
 }
@@ -151,13 +155,23 @@ function getProjectsContent(){
     return renderProjects(displays);
 }
 
+// Returns function that will create a page for a specific project
+function createProjectContentFunc(project, prevPage) {
+    return function() {
+        if(!project){
+            return prevPage;
+        }
+        const todoCards = generateCardList(project.getTodos(), "med");
+
+        return createProjectDisplay(project, todoCards, true);
+    }
+}
+
 // Create list of todo card elements
 function generateCardList(todoList, size){
     const outList = [];
     todoList.forEach(todo => {
-        if(size === "small"){
-            outList.push(generateSmallCard(todo));
-        }
+        outList.push(generateCard(todo, size));
     });
     return outList;
 }

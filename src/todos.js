@@ -1,10 +1,11 @@
 import editIcon from "./assets/editIcon.svg";
 import checkIcon from "./assets/checkIcon.svg";
 
-function generateSmallCard(todo){
+function generateCard(todo, size){
     const card = document.createElement("div");
     card.classList.add("todo-card");
     card.classList.add(todo.getPriority().toLowerCase());
+    card.classList.add(size);
 
     // HEADER
     const header = document.createElement("h3");
@@ -34,6 +35,10 @@ function generateSmallCard(todo){
     lowerLeft.appendChild(priority);
     lowerLeft.appendChild(dueDate)
 
+    // DESCRIPTION
+    const description = document.createElement("p");
+    description.textContent = todo.getDescription();
+
     // EDIT AND COMPLETED BUTTONS
     const lowerRight = document.createElement("div");
     lowerRight.classList.add("lower-right");
@@ -48,6 +53,7 @@ function generateSmallCard(todo){
     lowerContent.appendChild(lowerLeft);
     lowerContent.appendChild(lowerRight);
     card.appendChild(header);
+    card.appendChild(description);
     card.appendChild(lowerContent);
 
     // ADD EVENT LISTENERS TO BUTTONS
@@ -72,4 +78,4 @@ function generateIconButton(className, iconSource, tooltipText){
     return but;
 }
 
-export {generateSmallCard}
+export {generateCard}
