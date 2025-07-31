@@ -49,6 +49,10 @@ const getAllTodos = function() {
     return allTodos.sort(sortByName);
 }
 
+const getDefault = function(){
+    return defaultProject;
+}
+
 // Returns the project list OBJECT
 const getAllProjects = function() {
     return projectList;
@@ -64,4 +68,4 @@ const addTodo = function(name, priority, dueDate, description, projectId){
     project.addTodo(todo);
 }
 
-export {getDueSoonTodos, getHighPriorityTodos, getAllTodos, getAllProjects, addProject, addTodo};
+export {getDueSoonTodos, getHighPriorityTodos,getDefault, getAllTodos, getAllProjects, addProject, addTodo};

@@ -1,5 +1,5 @@
 import { renderHome } from "./home";
-import {getAllProjects, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, addTodo} from "./logicController";
+import {getAllProjects,getDefault, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, addTodo} from "./logicController";
 import { generateCard, generateTodoPage } from "./todos";
 import { createProjectDisplay, renderProjects } from "./projects";
 import backIcon from "./assets/backIcon.svg";
@@ -77,7 +77,7 @@ function init() {
         if(projectName === "") {return ;}
         addProject(projectName);
         updateAside(getAllProjects());
-        updateProjectOptions(todoProjectIn)
+        updateProjectOptions()
         toggleHidden(newProjform,newProjectBut)
         loadCurrentPage();
     });
@@ -88,7 +88,7 @@ function init() {
 
     updateAside(getAllProjects());
 
-    updateProjectOptions(todoProjectIn);
+    updateProjectOptions();
 
     // Load home content on page load
     loadCurrentPage();
@@ -96,7 +96,8 @@ function init() {
 }
 
 // Update the project list in the aside
-function updateAside(projectList) {
+function updateAside() {
+    const projectList = getAllProjects()
     const listDiv = document.getElementById("projects")
     listDiv.replaceChildren();
 
@@ -116,7 +117,8 @@ function updateAside(projectList) {
 }
 
 // Update the list of options for the project selector in the todo modal
-function updateProjectOptions(selector){
+function updateProjectOptions(){
+    const selector = document.getElementById("projectIn");
     selector.replaceChildren();
     const projectList = getAllProjects();
     projectList.getProjects().forEach(project => {
@@ -150,8 +152,9 @@ function getProjectsContent(){
     const projects = getAllProjects().getProjects();
     projects.forEach(project => {
         const navFunc = makeNavFunc(createProjectContentFunc(project, getCurrentContent));
+        const delFunc = makeProjDelFun(project, getCurrentContent)
         const todoList = generateCardList(project.getTodos(),"small")
-        displays.push(createProjectDisplay(project, todoList,false,navFunc));
+        displays.push(createProjectDisplay(project, todoList,false,navFunc,delFunc));
     });
 
     return renderProjects(displays);
@@ -167,7 +170,8 @@ function createProjectContentFunc(project, prevPage) {
 
         const parent = document.createElement("div");
         const backBut = makeBackButton(prevPage);
-        const projectDisplay = createProjectDisplay(project, todoCards, true);
+        const delBut = makeProjDelFun(project, prevPage)
+        const projectDisplay = createProjectDisplay(project, todoCards, true,0,delBut);
 
         parent.appendChild(backBut);
         parent.appendChild(projectDisplay);
@@ -221,6 +225,7 @@ function makeBackButton(prevPage) {
 
 function makeNavFunc(navPage){
     return function(){
+        console.log("NAVVING!!")
         getCurrentContent = navPage;
         loadCurrentPage();
     }
@@ -230,6 +235,19 @@ function makeTodoDelFunc(todo, prevPage){
     return function(){
         todo.getProject().removeTodo(todo);
         if(prevPage){getCurrentContent = prevPage}
+        loadCurrentPage()
+    }
+}
+
+function makeProjDelFun(project, prevPage){
+    return function(){
+        // project.getAllTodos().forEach(todo =>{
+        //     todo.setProject(getDefault())
+        // })
+        getAllProjects().removeProject(project)
+        if(prevPage){getCurrentContent = prevPage}
+        updateAside()
+        updateProjectOptions()
         loadCurrentPage()
     }
 }

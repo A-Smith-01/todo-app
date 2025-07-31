@@ -1,4 +1,6 @@
-function createProjectDisplay(project, todoCards, singlePage, navFunc){
+import binIcon from "./assets/binIcon.svg"
+
+function createProjectDisplay(project, todoCards, singlePage, navFunc, delFunc){
     const projectDiv = document.createElement("div");
 
     // Header content
@@ -7,11 +9,30 @@ function createProjectDisplay(project, todoCards, singlePage, navFunc){
     if(singlePage){
         headContent.classList.add("single-page");
     }
+
+    const title = document.createElement("div")
     const header = document.createElement("h1");
     header.textContent = project.getName();
     if(!singlePage){
         header.classList.add("clickable")
-        headContent.addEventListener("click", () => {navFunc()})
+        header.addEventListener("click", () => {navFunc()})
+    }
+    title.appendChild(header);
+
+    if(!project.isDefault()){
+        const delBut = document.createElement("button");
+        const delIcon = document.createElement("img");
+        const toolip = document.createElement("span");
+        delBut.classList.add("clickable")
+        delIcon.src = binIcon;
+        toolip.classList.add("tooltiptext");
+        toolip.textContent = "Delete project";
+        delBut.appendChild(delIcon)
+        delBut.appendChild(toolip)
+
+        delBut.addEventListener("click",() => {delFunc()})
+
+        title.appendChild(delBut)
     }
 
     const todoCount = document.createElement("span");
@@ -25,7 +46,7 @@ function createProjectDisplay(project, todoCards, singlePage, navFunc){
         todoCount.textContent = `${noTodos} Todos`;
     }
 
-    headContent.appendChild(header);
+    headContent.appendChild(title);
     headContent.appendChild(todoCount);
 
     // Insert todo
