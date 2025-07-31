@@ -181,7 +181,8 @@ function generateCardList(todoList, size){
     const outList = [];
     todoList.forEach(todo => {
         const navFunc = makeNavFunc(createTodoPageFunc(todo, getCurrentContent));
-        outList.push(generateCard(todo, size, navFunc));
+        const delFunc = makeTodoDelFunc(todo);
+        outList.push(generateCard(todo, size, navFunc, delFunc));
     });
     return outList;
 }
@@ -191,8 +192,10 @@ function createTodoPageFunc(todo, prevPage){
         const parent = document.createElement("div");
         const backBut = makeBackButton(prevPage);
 
+        const delFunc = makeTodoDelFunc(todo,prevPage);
+
         const projectNav = makeNavFunc(createProjectContentFunc(todo.getProject(),getCurrentContent));
-        const todoCard = generateTodoPage(todo,backBut,projectNav);
+        const todoCard = generateTodoPage(todo,backBut,projectNav,delFunc);
 
         parent.appendChild(backBut);
         parent.appendChild(todoCard);
@@ -220,6 +223,14 @@ function makeNavFunc(navPage){
     return function(){
         getCurrentContent = navPage;
         loadCurrentPage();
+    }
+}
+
+function makeTodoDelFunc(todo, prevPage){
+    return function(){
+        todo.getProject().removeTodo(todo);
+        if(prevPage){getCurrentContent = prevPage}
+        loadCurrentPage()
     }
 }
 

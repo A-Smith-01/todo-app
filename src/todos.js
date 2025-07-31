@@ -1,7 +1,7 @@
 import editIcon from "./assets/editIcon.svg";
 import checkIcon from "./assets/checkIcon.svg";
 
-function generateCard(todo, size,navFunc){
+function generateCard(todo, size,navFunc, delFunc, editFunc){
     const card = document.createElement("div");
     card.classList.add("todo-card");
     card.classList.add(todo.getPriority().toLowerCase());
@@ -40,6 +40,8 @@ function generateCard(todo, size,navFunc){
     const editBut = generateIconButton("edit",editIcon,"Edit");
     const completeBut = generateIconButton("check",checkIcon,"Completed");
 
+    completeBut.addEventListener("click", () => {delFunc()})
+
     lowerRight.appendChild(editBut);
     lowerRight.appendChild(completeBut)
 
@@ -55,7 +57,7 @@ function generateCard(todo, size,navFunc){
     return card;
 }
 
-function generateTodoPage(todo, backBut, projectNav){
+function generateTodoPage(todo, backBut, projectNav, delFunc, editFunc){
     const parent = document.createElement("div");
     parent.classList.add("todo-page")
 
