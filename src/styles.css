@@ -85,6 +85,14 @@ aside #projectForm button{
         font-size: 1.2rem;
 }
 
+aside #clearStorage{
+    position: fixed;
+    font-size: 1rem;
+    bottom: 0%;
+    width: 250px;
+    margin-left: auto;
+}
+
 
 /** 
 *********** NEW TODO MODAL **********

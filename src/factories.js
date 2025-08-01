@@ -20,24 +20,50 @@ function projectListFactory() {
         return projects.find(project => project.getId() === id);
     }
 
-    return {getProjects, addProject, removeProject, getProjectById}
+    function toJSON() {
+        return {
+            projects: projects.map(p => p.toJSON())
+        };
+    }
+
+    return {getProjects, addProject, removeProject, getProjectById, toJSON}
 }
 
-function projectFactory (name){
+projectListFactory.fromJSON = function(obj) {
+    const list = projectListFactory();
+    // First, create all projects without todos
+    const projectsById = {};
+    obj.projects.forEach(projObj => {
+        const project = projectFactory(projObj.name, projObj.id, projObj.defaultProject);
+        list.addProject(project);
+        projectsById[projObj.id] = project;
+    });
+    // Now, add todos to each project
+    obj.projects.forEach(projObj => {
+        const project = projectsById[projObj.id];
+        projObj.todos.forEach(todoObj => {
+            const todo = todoFactory.fromJSON(todoObj, project);
+            project.addTodo(todo);
+        });
+    });
+    return list;
+};
+
+function projectFactory (name, id, defaultProject = false){
     const todoList = [];
-    const id = crypto.randomUUID();
-    let defaultProject = false;
+    const _id = id || crypto.randomUUID();
+    let _defaultProject = defaultProject
 
     const getId = function() {
-        return id;
+        return _id;
     }
 
     const setDefault = function() {
-        defaultProject = true;
+        _defaultProject = true;
     }
 
     const isDefault = function() {
-        return defaultProject;
+        return _defaultProject;
     }
 
     const getName = function() {
@@ -63,16 +89,36 @@ function projectFactory (name){
         }
     }
 
-    return {getId, getName, setName, getTodos, addTodo, removeTodo, setDefault, isDefault};
+    function toJSON() {
+        return {
+            name: getName(),
+            id: _id,
+            defaultProject: _defaultProject,
+            todos: todoList.map(todo => todo.toJSON())
+        };
+    }
+
+    return {getId, getName, setName, getTodos, addTodo, removeTodo, setDefault, isDefault, toJSON};
 }
 
-function todoFactory(name, priority, dueDate, description, project) {
-    const id = crypto.randomUUID();
+projectFactory.fromJSON = function(obj) {
+    const project = projectFactory(obj.name, obj.id, obj.defaultProject);
+    if (obj.todos) {
+        obj.todos.forEach(todoObj => {
+            const todo = todoFactory.fromJSON(todoObj, project);
+            project.addTodo(todo);
+        });
+    }
+    return project;
+};
+
+function todoFactory(name, priority, dueDate, description, project, id) {
+    const _id = id || crypto.randomUUID();
     if (typeof dueDate === 'undefined') { dueDate = 0; }
     if (typeof description === 'undefined') { description = 'No description.'; }
 
     const getId = function() {
-        return id;
+        return _id;
     }
 
     const getName = function() {
@@ -130,7 +176,22 @@ function todoFactory(name, priority, dueDate, description, project) {
         project = newProject;
     }
 
-    return {getId ,getName, setName, getPriority, setPriority,getDate, getDueDate, setDueDate, getDescription, setDescription, getProject, setProject};
+    function toJSON() {
+        return {
+            name: getName(),
+            priority: getPriority(),
+            dueDate: getDate(),
+            description: getDescription(),
+            id: _id,
+            projectId: project.getId()
+        };
+    }
+
+    return {getId ,getName, setName, getPriority, setPriority,getDate, getDueDate, setDueDate, getDescription, setDescription, getProject, setProject, toJSON};
 }
+
+todoFactory.fromJSON = function(obj, project) {
+    return todoFactory(obj.name, obj.priority, obj.dueDate, obj.description, project, obj.id);
+};
 
 export { projectListFactory, projectFactory, todoFactory}

@@ -1,22 +1,25 @@
 import { projectListFactory, projectFactory, todoFactory} from "./factories";
+import { clearStorage, loadStorage, updateStorage } from "./persistanceController";
 
 
 // load saved todos and projects from local storage
 console.log("Initializing project list");
-const projectList = projectListFactory();
-
-// Create default project for todos to go in
-const defaultProject = projectFactory("Unassigned");
-defaultProject.setDefault();
-projectList.addProject(defaultProject);
+const saved = loadStorage()
+const projectList = saved ? projectListFactory.fromJSON(saved) : projectListFactory();
 
 // PLACEHOLER REMOVE LATER
-defaultProject.addTodo(todoFactory("Example Todo 1", "High","2025-08-01","example description", defaultProject));
-defaultProject.addTodo(todoFactory("Example Todo 2", "Medium","2025-08-04","example description", defaultProject));
-defaultProject.addTodo(todoFactory("Example Todo 3", "Low","2025-08-02","example description", defaultProject));
-defaultProject.addTodo(todoFactory("Example Todo 4", "Medium","2025-07-27","example description", defaultProject));
-defaultProject.addTodo(todoFactory("Example Todo 5", "High","","example description", defaultProject));
+if(!saved){
+    // Create default project for todos to go in
+    const defaultProject = projectFactory("Unassigned");
+    defaultProject.setDefault();
+    projectList.addProject(defaultProject);
 
+    defaultProject.addTodo(todoFactory("Example Todo 1", "High","2025-08-01","example description", defaultProject));
+    defaultProject.addTodo(todoFactory("Example Todo 2", "Medium","2025-08-04","example description", defaultProject));
+    defaultProject.addTodo(todoFactory("Example Todo 3", "Low","2025-08-02","example description", defaultProject));
+    defaultProject.addTodo(todoFactory("Example Todo 4", "Medium","2025-07-27","example description", defaultProject));
+    defaultProject.addTodo(todoFactory("Example Todo 5", "High","","example description", defaultProject));
+}
 // This function will return todos with a due date sorted ascending
 const getDueSoonTodos = function() {
     const soonFilter = todo => {
@@ -60,12 +63,14 @@ const getAllProjects = function() {
 
 const addProject = function(name) {
     projectList.addProject(projectFactory(name))
+    updateStorage(projectList.toJSON())
 }
 
 const addTodo = function(name, priority, dueDate, description, projectId){
     const project = getAllProjects().getProjectById(projectId);
     const todo = todoFactory(name, priority, dueDate, description, project);
     project.addTodo(todo);
+    updateStorage(projectList.toJSON())
 }
 
 const editTodo = function(todo, name, priority, dueDate, description, projectId){
@@ -77,10 +82,21 @@ const editTodo = function(todo, name, priority, dueDate, description, projectId)
     todo.setDescription(description)
     todo.setProject(project)
     project.addTodo(todo);
+    updateStorage(projectList.toJSON())
 }
 
 const removeTodo = function(todo){
     todo.getProject().removeTodo(todo);
+    updateStorage(projectList.toJSON())
 }
 
-export {getDueSoonTodos, getHighPriorityTodos,getDefault, getAllTodos, getAllProjects, addProject, addTodo, editTodo, removeTodo};
+const removeProject = function(project){
+    projectList.removeProject(project)
+    updateStorage(projectList.toJSON())
+}
+
+const clearData = function(){
+    clearStorage()
+}
+
+export {getDueSoonTodos, getHighPriorityTodos,getDefault, getAllTodos, getAllProjects, addProject, removeProject, addTodo, editTodo, removeTodo, clearData};

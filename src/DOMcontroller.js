@@ -1,9 +1,10 @@
 import { renderHome } from "./home";
-import {getAllProjects,getDefault, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, addTodo, editTodo, removeTodo} from "./logicController";
+import {getAllProjects,getDefault, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, removeProject, addTodo, editTodo, removeTodo, clearData} from "./logicController";
 import { generateCard, generateTodoPage } from "./todos";
 import { createProjectDisplay, renderProjects } from "./projects";
 import { showModal } from "./modal";
 import backIcon from "./assets/backIcon.svg";
+import { clearStorage } from "./persistanceController";
 
 // Set initial page to home
 
@@ -14,7 +15,7 @@ function init() {
     const newTodoBut = document.getElementById("newTodo");
     const newProjectBut = document.getElementById("newProject");
     const projectNav = document.getElementById("projectNav");
-    
+    const clearDataBut = document.getElementById("clearStorage");
 
     const newProjform = document.getElementById("projectForm");
     const newProjInput = newProjform.querySelector("input");
@@ -54,6 +55,11 @@ function init() {
     cancelProjBut.addEventListener("click", () => {
         toggleHidden(newProjform,newProjectBut)
     });
+
+    clearDataBut.addEventListener("click", () => {
+        clearData()
+        window.location.reload();
+    })
 
     updateAside(getAllProjects());
 
@@ -217,7 +223,7 @@ function makeTodoEditFunc(todo){
 
 function makeProjDelFun(project, prevPage){
     return function(){
-        getAllProjects().removeProject(project)
+        removeProject(project)
         if(prevPage){getCurrentContent = prevPage}
         updateAside()
         loadCurrentPage()
@@ -229,7 +235,5 @@ function toggleHidden(a, b){
     a.classList.toggle("hidden");
     b.classList.toggle("hidden");
 }
-
-
 
 export {updateAside, init}
