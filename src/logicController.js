@@ -69,15 +69,18 @@ const addTodo = function(name, priority, dueDate, description, projectId){
 }
 
 const editTodo = function(todo, name, priority, dueDate, description, projectId){
+    removeTodo(todo)
     const project = getAllProjects().getProjectById(projectId);
     todo.setName(name);
     todo.setPriority(priority);
     todo.setDueDate(dueDate)
     todo.setDescription(description)
-
-    todo.getProject().removeTodo()
     todo.setProject(project)
     project.addTodo(todo);
 }
 
-export {getDueSoonTodos, getHighPriorityTodos,getDefault, getAllTodos, getAllProjects, addProject, addTodo, editTodo};
+const removeTodo = function(todo){
+    todo.getProject().removeTodo(todo);
+}
+
+export {getDueSoonTodos, getHighPriorityTodos,getDefault, getAllTodos, getAllProjects, addProject, addTodo, editTodo, removeTodo};

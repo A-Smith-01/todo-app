@@ -1,5 +1,5 @@
 import { renderHome } from "./home";
-import {getAllProjects,getDefault, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, addTodo} from "./logicController";
+import {getAllProjects,getDefault, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, addTodo, editTodo, removeTodo} from "./logicController";
 import { generateCard, generateTodoPage } from "./todos";
 import { createProjectDisplay, renderProjects } from "./projects";
 import { showModal } from "./modal";
@@ -154,7 +154,8 @@ function generateCardList(todoList, size){
     todoList.forEach(todo => {
         const navFunc = makeNavFunc(createTodoPageFunc(todo, getCurrentContent));
         const delFunc = makeTodoDelFunc(todo);
-        outList.push(generateCard(todo, size, navFunc, delFunc));
+        const editFunc = makeTodoEditFunc(todo)
+        outList.push(generateCard(todo, size, navFunc, delFunc, editFunc));
     });
     return outList;
 }
@@ -201,7 +202,7 @@ function makeNavFunc(navPage){
 
 function makeTodoDelFunc(todo, prevPage){
     return function(){
-        todo.getProject().removeTodo(todo);
+        removeTodo(todo)
         if(prevPage){getCurrentContent = prevPage}
         loadCurrentPage()
     }
@@ -209,7 +210,8 @@ function makeTodoDelFunc(todo, prevPage){
 
 function makeTodoEditFunc(todo){
     return function(){
-
+        const modal = document.getElementById("newTodoModal");
+        showModal(modal, getAllProjects().getProjects(),makeSubmitHandler(todo),true,todo)
     }
 }
 

@@ -41,6 +41,7 @@ function generateCard(todo, size,navFunc, delFunc, editFunc){
     const completeBut = generateIconButton("check",checkIcon,"Completed");
 
     completeBut.addEventListener("click", () => {delFunc()})
+    editBut.addEventListener("click", () => {editFunc()})
 
     lowerRight.appendChild(editBut);
     lowerRight.appendChild(completeBut)
