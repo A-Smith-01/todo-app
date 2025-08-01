@@ -94,6 +94,10 @@ function todoFactory(name, priority, dueDate, description, project) {
         priority = newPriority;
     }
 
+    const getDate = function(){
+        return dueDate;
+    }
+
     const getDueDate = function() {
         if (!dueDate) {
             return 'N/A';
@@ -126,7 +130,7 @@ function todoFactory(name, priority, dueDate, description, project) {
         project = newProject;
     }
 
-    return {getId ,getName, setName, getPriority, setPriority, getDueDate, setDueDate, getDescription, setDescription, getProject, setProject};
+    return {getId ,getName, setName, getPriority, setPriority,getDate, getDueDate, setDueDate, getDescription, setDescription, getProject, setProject};
 }
 
 export { projectListFactory, projectFactory, todoFactory}

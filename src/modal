@@ -1,0 +1,112 @@
+function showModal(parent,projectList,submitHandler, edit, todo){
+    parent.replaceChildren()
+    const modalContent = document.createElement("div")
+    modalContent.classList.add("modal-content")
+    const header = document.createElement("h1")
+    if(!edit){
+        header.textContent = "Add New Todo";
+    }else{
+        header.textContent = "Edit Todo";
+    }
+
+    // Todo title
+    const titleL = document.createElement("label")
+    titleL.for = "title";
+    titleL.textContent = "Title"
+
+    const titleIn = document.createElement("input")
+    titleIn.setAttribute("type", "text")
+    titleIn.name = "title"
+    if(edit){titleIn.value = todo.getName()}
+
+    // Due date
+    const dueL = document.createElement("label")
+    dueL.for = "due";
+    dueL.textContent = "Due Date"
+
+    const dateIn = document.createElement("input")
+    dateIn.setAttribute("type", "date")
+    dateIn.name = "due"
+    if(edit && todo.getDate()){dateIn.value = todo.getDate()}
+
+    // Priority
+    const priorityL = document.createElement("label")
+    priorityL.for = "priority";
+    priorityL.textContent = "Priority"
+
+    const priorityIn = document.createElement("select")
+    priorityIn.name = "priority"
+    const priorities = ["Low","Medium","High"]
+    priorities.forEach(priority => {
+        const option = document.createElement("option");
+        option.value=priority;
+        option.textContent = priority;
+        if(edit && todo.getPriority() == priority){option.selected = "selected"}
+        priorityIn.appendChild(option)
+    })
+    if(!edit){priorityIn.childNodes[0].selected = "selected"}
+
+    // Project
+    const projectL = document.createElement("label")
+    projectL.for = "project";
+    projectL.textContent = "Assign Project"
+
+    const projectIn = document.createElement("select");
+    projectIn.name = "project";
+    projectList.forEach(project => {
+        const option = document.createElement("option");
+        option.value=project.getId();
+        option.textContent = project.getName();
+        if(edit && todo.getProject() == project){option.selected = "selected"}
+        if(!edit && project.isDefault()){option.selected = "selected"}
+        projectIn.appendChild(option)
+    })
+
+    // Description
+    const descL = document.createElement("label")
+    descL.for = "desc";
+    descL.textContent = "Description"
+
+    const descIn = document.createElement("textarea")
+    descIn.setAttribute("type", "text")
+    descIn.name = "desc"
+    if(edit){descIn.value = todo.getDescription()}
+
+    // Buttons
+    const buttonDiv = document.createElement("div")
+    const submitBut = document.createElement("button")
+    const cancelBut = document.createElement("button")
+    submitBut.textContent = "Submit"
+    cancelBut.textContent = "Cancel"
+    buttonDiv.appendChild(submitBut)
+    buttonDiv.appendChild(cancelBut)
+
+    modalContent.appendChild(header)
+    modalContent.appendChild(titleL)
+    modalContent.appendChild(titleIn)
+    modalContent.appendChild(dueL)
+    modalContent.appendChild(dateIn)
+    modalContent.appendChild(priorityL)
+    modalContent.appendChild(priorityIn)
+    modalContent.appendChild(projectL)
+    modalContent.appendChild(projectIn)
+    modalContent.appendChild(descL)
+    modalContent.appendChild(descIn)
+    modalContent.appendChild(buttonDiv)
+    console.log(parent)
+    parent.classList.toggle("hidden")
+    parent.appendChild(modalContent)
+
+    // Button events
+    cancelBut.addEventListener("click",() => {
+        parent.classList.toggle("hidden")
+    })
+
+    submitBut.addEventListener("click", () => {
+        if(submitHandler(titleIn.value, dateIn.value, priorityIn.value, projectIn.value, descIn.value)){
+            parent.classList.toggle("hidden")
+        }
+    })
+}
+
+export {showModal}

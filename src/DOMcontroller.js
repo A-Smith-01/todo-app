@@ -2,6 +2,7 @@ import { renderHome } from "./home";
 import {getAllProjects,getDefault, getAllTodos, getDueSoonTodos, getHighPriorityTodos, addProject, addTodo} from "./logicController";
 import { generateCard, generateTodoPage } from "./todos";
 import { createProjectDisplay, renderProjects } from "./projects";
+import { showModal } from "./modal";
 import backIcon from "./assets/backIcon.svg";
 
 // Set initial page to home
@@ -20,43 +21,12 @@ function init() {
     const addProjBut = newProjform.querySelector("button");
     const cancelProjBut = newProjform.querySelector("button:last-child");
 
-    const todoModal = document.getElementById("newTodoModal");
-    const todoNameIn = document.getElementById("nameIn");
-    const todoPriorityIn = document.getElementById("priorityIn");
-    const todoDueIn = document.getElementById("dueIn");
-    const todoDescIn = document.getElementById("descIn");
-    const todoProjectIn = document.getElementById("projectIn");
-    const todoSubmitBut = document.getElementById("todoSubmit");
-    const todoCancelBut = document.getElementById("todoCancel");
+    const modal = document.getElementById("newTodoModal");
 
-    
 
     newTodoBut.addEventListener("click", () => {
-        todoModal.classList.toggle("hidden")
+        showModal(modal, getAllProjects().getProjects(),makeSubmitHandler())
     })
-
-    todoCancelBut.addEventListener("click", () => {
-        todoModal.classList.toggle("hidden")
-    });
-
-    todoSubmitBut.addEventListener("click", () => {
-        const name = todoNameIn.value.trim();
-        const priority = todoPriorityIn.value;
-        const dueDate = todoDueIn.value;
-        const description = todoDescIn.value.trim();
-        const projectId = todoProjectIn.value;
-
-        console.log(dueDate);
-        if(name === ""){
-            return;
-        }
-
-        addTodo(name, priority, dueDate, description, projectId);
-
-        loadCurrentPage();
-
-        todoModal.classList.toggle("hidden");
-    });
 
     homeBut.addEventListener("click", () => {
         getCurrentContent = getHomeContent;
@@ -77,7 +47,6 @@ function init() {
         if(projectName === "") {return ;}
         addProject(projectName);
         updateAside(getAllProjects());
-        updateProjectOptions()
         toggleHidden(newProjform,newProjectBut)
         loadCurrentPage();
     });
@@ -87,8 +56,6 @@ function init() {
     });
 
     updateAside(getAllProjects());
-
-    updateProjectOptions();
 
     // Load home content on page load
     loadCurrentPage();
@@ -116,20 +83,21 @@ function updateAside() {
     });
 }
 
-// Update the list of options for the project selector in the todo modal
-function updateProjectOptions(){
-    const selector = document.getElementById("projectIn");
-    selector.replaceChildren();
-    const projectList = getAllProjects();
-    projectList.getProjects().forEach(project => {
-        const option = document.createElement("option");
-        option.value = project.getId();
-        option.textContent = project.getName();
-        if(project.isDefault()){
-            option.selected = "selected";
+function makeSubmitHandler(todo){
+    return function(name, dueDate, priority, project, desc){
+        if(name === ""){
+        return false;
         }
-        selector.appendChild(option);
-    });
+
+        if(todo){
+            editTodo(todo, name, priority, dueDate, desc, project)
+        }else{
+            addTodo(name, priority, dueDate, desc, project);
+        }
+
+        loadCurrentPage();
+        return true;
+    }
 }
 
 // Call current content function and put it in the content div
@@ -239,15 +207,17 @@ function makeTodoDelFunc(todo, prevPage){
     }
 }
 
+function makeTodoEditFunc(todo){
+    return function(){
+
+    }
+}
+
 function makeProjDelFun(project, prevPage){
     return function(){
-        // project.getAllTodos().forEach(todo =>{
-        //     todo.setProject(getDefault())
-        // })
         getAllProjects().removeProject(project)
         if(prevPage){getCurrentContent = prevPage}
         updateAside()
-        updateProjectOptions()
         loadCurrentPage()
     }
 }
