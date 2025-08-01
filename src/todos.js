@@ -53,8 +53,6 @@ function generateCard(todo, size,navFunc, delFunc, editFunc){
     card.appendChild(description);
     card.appendChild(lowerContent);
 
-    // ADD EVENT LISTENERS TO BUTTONS
-
     return card;
 }
 
@@ -64,6 +62,17 @@ function generateTodoPage(todo, backBut, projectNav, delFunc, editFunc){
 
     const header = document.createElement("h1");
     header.textContent = todo.getName();
+
+    const buttons = document.createElement("div");
+    const editBut = document.createElement("button");
+    const delBut = document.createElement("button");
+    buttons.classList.add("button-container")
+
+    editBut.textContent = "Edit"
+    delBut.textContent = "Remove"
+
+    editBut.addEventListener("click", () => {editFunc()})
+    delBut.addEventListener("click", () => {delFunc()})
 
     const midContent = document.createElement("div");
     midContent.classList.add("mid-content");
@@ -91,6 +100,9 @@ function generateTodoPage(todo, backBut, projectNav, delFunc, editFunc){
 
     parent.appendChild(backBut)
     parent.appendChild(header)
+    parent.appendChild(buttons)
+    buttons.appendChild(editBut)
+    buttons.appendChild(delBut)
     midContent.appendChild(project)
     midContent.appendChild(priority)
     midContent.appendChild(dueDate)

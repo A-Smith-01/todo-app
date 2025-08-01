@@ -166,9 +166,10 @@ function createTodoPageFunc(todo, prevPage){
         const backBut = makeBackButton(prevPage);
 
         const delFunc = makeTodoDelFunc(todo,prevPage);
+        const editFunc = makeTodoEditFunc(todo)
 
         const projectNav = makeNavFunc(createProjectContentFunc(todo.getProject(),getCurrentContent));
-        const todoCard = generateTodoPage(todo,backBut,projectNav,delFunc);
+        const todoCard = generateTodoPage(todo,backBut,projectNav,delFunc,editFunc);
 
         parent.appendChild(backBut);
         parent.appendChild(todoCard);
@@ -194,7 +195,6 @@ function makeBackButton(prevPage) {
 
 function makeNavFunc(navPage){
     return function(){
-        console.log("NAVVING!!")
         getCurrentContent = navPage;
         loadCurrentPage();
     }
