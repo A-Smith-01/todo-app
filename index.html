@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todoinator</title>
+<script defer src="main.js"></script></head>
+<body>
+    <div class="hidden modal" id="newTodoModal">
+        <div class="modal-content">
+            <h1>Add New Todo</h1>
+            <label for="name">Title</label><input type="text" name="" id="nameIn">
+            <label for="due">Due date</label><input class="date" type="date" name="" id="dueIn">
+            <label for="priorityIn">Priority</label><select name="" id="priorityIn">
+                <option value="Low" selected="selected">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+            <label for="projectIn">Project</label><select name="" id="projectIn"></select>
+            <label for="descIn">Description</label><textarea rows="4" id="descIn"></textarea>
+            <div class="modal-buttons">
+                <button id="todoSubmit">Submit</button>
+                <button id="todoCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <aside>
+        <button id="home">Home</button>
+        <button id="newTodo">+ New Todo</button>
+        <button id="newProject">+ New Project</button>
+        <div id="projectForm" class="hidden">
+            <input type="text" name="" id="">
+            <div><button>Add</button><button>Cancel</button></div>
+        </div>
+        <button id="projectNav">My Projects</button>
+        <div id="projects">
+        </div>
+        <button id="clearStorage">Clear storage</button>
+    </aside>
+    <div id="content">
+        
+    </div>
+</body>
+</html>
